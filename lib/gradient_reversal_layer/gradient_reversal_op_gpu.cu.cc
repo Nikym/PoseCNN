@@ -25,7 +25,7 @@ __global__ void GradientreversalForward(const int nthreads, const Dtype* bottom_
 
 bool GradientreversalForwardLaucher(const float* bottom_data, const int size, float* top_data, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = size;
   cudaError_t err;
 
@@ -56,7 +56,7 @@ __global__ void GradientreversalBackward(const int nthreads, const Dtype* top_di
 bool GradientreversalBackwardLaucher(const float* top_diff, const int size, const float lambda,
     float* bottom_diff, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = size;
   cudaError_t err;
 

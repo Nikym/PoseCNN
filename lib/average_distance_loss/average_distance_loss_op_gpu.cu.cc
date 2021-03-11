@@ -260,7 +260,7 @@ void AveragedistanceForwardLaucher(OpKernelContext* context,
 {
   // run kernels
   cudaError_t err;
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   int output_size;
 
   // temp losses
@@ -357,7 +357,7 @@ __global__ void AveragedistanceBackward(const int nthreads, const Dtype* top_dif
 bool AveragedistanceBackwardLaucher(const float* top_diff, const float* bottom_diff, const int batch_size,
     const int channels, float* output, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * channels;
   cudaError_t err;
 

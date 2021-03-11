@@ -246,7 +246,7 @@ bool TripletForwardLaucher(
 
   // run kernels
   cudaError_t err;
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * height * width;
 
   // compute the loss matrix
@@ -315,7 +315,7 @@ __global__ void TripletBackward(const int nthreads, const Dtype* top_diff,
 bool TripletBackwardLaucher(const float* top_diff, const float* bottom_diff, const int batch_size,
     const int height, const int width, const int channels, float* output, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * height * width * channels;
   cudaError_t err;
 

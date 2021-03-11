@@ -106,7 +106,7 @@ bool ROIPoolForwardLaucher(
     const int pooled_width, const float* bottom_rois,
     float* top_data, int* argmax_data, const Eigen::GpuDevice& d) 
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   int output_size;
   cudaError_t err;
 
@@ -234,7 +234,7 @@ bool ROIPoolBackwardLaucher(const float* top_diff, const float spatial_scale, co
     const int pooled_width, const float* bottom_rois,
     float* bottom_diff, const int* argmax_data, const Eigen::GpuDevice& d) 
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * height * width * channels;
   cudaError_t err;
 

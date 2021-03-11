@@ -78,7 +78,7 @@ bool ProjectForwardLaucher(
     const int batch_size, const int height, const int width, const int channels, const int num_meta_data,
     const int grid_size, float* top_data, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * height * width * channels;
   cudaError_t err;
 
@@ -173,7 +173,7 @@ bool ProjectBackwardLaucher(const float* top_diff, const float* bottom_depth, co
     const int height, const int width, const int channels, const int num_meta_data, const int grid_size, const int kernel_size, const float threshold,
     float* bottom_diff, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * grid_size * grid_size * grid_size * channels;
   cudaError_t err;
 

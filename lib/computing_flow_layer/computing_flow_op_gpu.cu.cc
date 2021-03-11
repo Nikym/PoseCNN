@@ -122,7 +122,7 @@ bool ComputeFlowForwardLaucher(
     const int kernel_size, const float threshold, const float max_weight,
     float* top_data, float* top_weights, float* top_points, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   cudaError_t err;
 
   const int output_size = batch_size * height * width * channels;
@@ -228,7 +228,7 @@ bool ComputeFlowBackwardLaucher(const float* top_diff, const float* top_diff_wei
     const int height, const int width, const int channels, const int num_meta_data, const int kernel_size, const float threshold, const float max_weight,
     float* bottom_diff, float* bottom_diff_weights, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * height * width * channels;
   cudaError_t err;
 

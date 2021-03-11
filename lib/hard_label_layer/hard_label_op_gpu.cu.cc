@@ -33,7 +33,7 @@ bool HardlabelForwardLaucher(const float* bottom_prob, const int* bottom_gt,
   const int batch_size, const int height, const int width, const int num_classes,
   const float threshold, float* top_data, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * height * width;
   cudaError_t err;
 
@@ -66,7 +66,7 @@ __global__ void HardlabelBackward(const int nthreads, const int num_classes, Dty
 bool HardlabelBackwardLaucher(const float* top_diff, const int batch_size, const int height, const int width, const int num_classes,
     float* bottom_diff_prob, float* bottom_diff_gt, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * height * width;
   cudaError_t err;
 

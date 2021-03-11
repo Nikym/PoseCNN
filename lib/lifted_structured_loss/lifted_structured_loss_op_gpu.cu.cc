@@ -312,7 +312,7 @@ bool LiftedstructForwardLaucher(
   cudaMemcpy(pixel_labels_device, pixel_labels.data(), num_pixels * sizeof(int), cudaMemcpyHostToDevice);
   cudaMemcpy(positive_indexes_device, positive_indexes.data(), num_positives * sizeof(int), cudaMemcpyHostToDevice);
 
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   cudaError_t err;
 
   // compute distance and label matrix
@@ -398,7 +398,7 @@ __global__ void LiftedstructBackward(const int nthreads, const Dtype* top_diff,
 bool LiftedstructBackwardLaucher(const float* top_diff, const float* bottom_diff, const int batch_size,
     const int height, const int width, const int channels, float* output, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * height * width * channels;
   cudaError_t err;
 

@@ -93,7 +93,7 @@ bool ComputingLabelLaucher(
     const int batch_size, const int height, const int width, const int num_meta_data,
     const int grid_size, const int num_classes, int* top_label, const Eigen::GpuDevice& d)
 {
-  const int kThreadsPerBlock = 1024;
+  const int kThreadsPerBlock = 512;
   const int output_size = batch_size * height * width;
   cudaError_t err;
 
