@@ -206,9 +206,9 @@ class SolverWrapper(object):
     def train_model_vertex_pose(self, sess, train_op, loss, loss_cls, loss_vertex, loss_pose, learning_rate, max_iters, data_layer):
         """Network training loop."""
         # add summary
-        tf.summary.scalar('loss', loss)
-        merged = tf.summary.merge_all()
         train_writer = tf.summary.FileWriter(self.output_dir, sess.graph)
+        merged = tf.summary.merge_all()
+        tf.summary.scalar('loss', loss)
 
         coord = tf.train.Coordinator()
         if cfg.TRAIN.VISUALIZE:
