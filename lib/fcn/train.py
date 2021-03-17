@@ -207,8 +207,8 @@ class SolverWrapper(object):
         """Network training loop."""
         # add summary
         train_writer = tf.summary.FileWriter(self.output_dir, sess.graph)
-        merged = tf.summary.merge_all()
-        tf.summary.scalar('loss', loss)
+        lossscalar = tf.summary.scalar('loss', loss)
+        merged = tf.summary.merge([lossscalar])
 
         coord = tf.train.Coordinator()
         if cfg.TRAIN.VISUALIZE:
@@ -240,6 +240,7 @@ class SolverWrapper(object):
             timer.tic()
             loss_value, loss_cls_value, loss_vertex_value, loss_pose_value, lr, _ = sess.run([loss, loss_cls, loss_vertex, loss_pose, learning_rate, train_op])
             # train_writer.add_summary(summary, iter)
+            train_writer.add_summary(loss)
             timer.toc()
             print 'iter: %d / %d, loss: %.4f, loss_cls: %.4f, loss_vertex: %.4f, loss_pose: %.4f, lr: %.8f,  time: %.2f' %\
                     (iter+1, max_iters, loss_value, loss_cls_value, loss_vertex_value, loss_pose_value, lr, timer.diff)
