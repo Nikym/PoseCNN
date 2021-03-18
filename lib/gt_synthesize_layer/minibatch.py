@@ -582,6 +582,7 @@ def _generate_vertex_targets(im_label, cls_indexes, center, poses, num_classes, 
                 if cfg.TRAIN.VERTEX_REG_2D:
                     print('x', x)
                     print('ind', ind)
+                    print('cls_indexes', cls_indexes)
                     c[0] = center[ind, 0]
                     c[1] = center[ind, 1]
                     z = poses[2, 3, ind]
