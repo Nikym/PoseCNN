@@ -578,10 +578,10 @@ def _generate_vertex_targets(im_label, cls_indexes, center, poses, num_classes, 
             y, x = np.where(im_label == i)
             I = np.where(im_label == i)
             ind = np.where(cls_indexes == i)[0]
-            print('x', x)
-            print('ind', ind)
             if len(x) > 0 and len(ind) > 0:
                 if cfg.TRAIN.VERTEX_REG_2D:
+                    print('x', x)
+                    print('ind', ind)
                     c[0] = center[ind, 0]
                     c[1] = center[ind, 1]
                     z = poses[2, 3, ind]
