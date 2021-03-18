@@ -207,8 +207,8 @@ class SolverWrapper(object):
         """Network training loop."""
         # add summary
         train_writer = tf.summary.FileWriter(self.output_dir, sess.graph)
-        lossscalar = tf.summary.scalar('loss', loss)
-        merged = tf.summary.merge([lossscalar])
+        loss_sum = tf.summary.scalar('loss', loss)
+        merged = tf.summary.merge_all()
 
         coord = tf.train.Coordinator()
         if cfg.TRAIN.VISUALIZE:
@@ -231,16 +231,15 @@ class SolverWrapper(object):
 
         tf.get_default_graph().finalize()
 
-        # tf.train.write_graph(sess.graph_def, self.output_dir, 'model.pbtxt')
-        train_writer.flush()
+        tf.train.write_graph(sess.graph_def, self.output_dir, 'model.pbtxt')
         last_snapshot_iter = -1
         timer = Timer()
         for iter in range(max_iters):
 
             timer.tic()
-            loss_value, loss_cls_value, loss_vertex_value, loss_pose_value, lr, _ = sess.run([loss, loss_cls, loss_vertex, loss_pose, learning_rate, train_op])
-            #train_writer.add_summary(lossscalar, iter)
-            #train_writer.add_summary(loss)
+            loss_value, loss_cls_value, loss_vertex_value, loss_pose_value, lr, _ = sess.run([loss_sum, loss_cls, loss_vertex, loss_pose, learning_rate, train_op])
+            train_writer.add_summary(loss_value, iter)
+            
             timer.toc()
             print 'iter: %d / %d, loss: %.4f, loss_cls: %.4f, loss_vertex: %.4f, loss_pose: %.4f, lr: %.8f,  time: %.2f' %\
                     (iter+1, max_iters, loss_value, loss_cls_value, loss_vertex_value, loss_pose_value, lr, timer.diff)
