@@ -574,15 +574,16 @@ def _generate_vertex_targets(im_label, cls_indexes, center, poses, num_classes, 
                 vertex_weights[y, x, 3*cls+2] = cfg.TRAIN.VERTEX_W_INSIDE
     else:
         c = np.zeros((2, 1), dtype=np.float32)
+        # num_classes refers to the total number of classes
         for i in xrange(1, num_classes):
             y, x = np.where(im_label == i)
             I = np.where(im_label == i)
             ind = np.where(cls_indexes == i)[0]
             if len(x) > 0 and len(ind) > 0:
                 if cfg.TRAIN.VERTEX_REG_2D:
-                    print('x', x)
-                    print('ind', ind)
-                    print('cls_indexes', cls_indexes)
+                    # print('x', x)
+                    # print('ind', ind)
+                    # print('cls_indexes', cls_indexes)
                     c[0] = center[ind, 0]
                     c[1] = center[ind, 1]
                     z = poses[2, 3, ind]
