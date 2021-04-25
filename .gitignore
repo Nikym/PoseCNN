@@ -14,3 +14,4 @@ ros/build/*
 ros/data/*
 ros/devel/*
 images/*
+.DS_STORE
