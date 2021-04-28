@@ -464,33 +464,6 @@ class lov(datasets.imdb):
                         RT[:, 3] = poses[k, 4:7]
                         print RT
 
-                        # Rotation difference in degrees
-                        # R = PQ^T, theta = arccos((tr(R)-1)/2)
-
-                        P = np.delete(poses_gt[:, :, j], 3, 1)
-                        Q = np.delete(RT, 3, 1)
-
-                        R = np.matmul(P, Q.T)
-                        tr_R = np.trace(R)
-
-                        theta = np.rad2deg(np.arccos(((tr_R) - 1) / 2))
-
-                        print 'rotation difference: {}'.format(theta)
-
-                        # Translation difference in meters
-                        # d = sqrt((x1 - x2)**2 + (y1 - y2)**2 + (z1 - z2)**2)
-                        
-                        t_vector_gt = np.array(poses_gt[:, 3, j]).flatten()
-                        t_vector = np.array(RT[:, :3]).flatten()
-
-                        x_diff = (t_vector_gt[0] - t_vector[0])**2
-                        y_diff = (t_vector_gt[1] - t_vector[1])**2
-                        z_diff = (t_vector_gt[2] - t_vector[2])**2
-
-                        d = math.sqrt(x_diff + y_diff + z_diff)
-
-                        print 'translation difference: {}'.format(d)
-
                         if cfg.TEST.POSE_REFINE:
                             print 'translation refined pose'
                             RT_new = np.zeros((3, 4), dtype=np.float32)
