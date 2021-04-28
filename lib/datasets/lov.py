@@ -480,8 +480,8 @@ class lov(datasets.imdb):
                         # Translation difference in meters
                         # d = sqrt((x1 - x2)**2 + (y1 - y2)**2 + (z1 - z2)**2)
                         
-                        t_vector_gt = np.flatten(poses_gt[:, 3, j])
-                        t_vector = np.flatten(RT[:, :3])
+                        t_vector_gt = np.array(poses_gt[:, 3, j]).flatten()
+                        t_vector = np.array(RT[:, :3]).flatten()
 
                         x_diff = (t_vector_gt[0] - t_vector[0])**2
                         y_diff = (t_vector_gt[1] - t_vector[1])**2
