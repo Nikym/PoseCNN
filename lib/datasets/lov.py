@@ -443,6 +443,7 @@ class lov(datasets.imdb):
                 poses_gt = np.reshape(poses_gt, (3, 4, 1))
             num = poses_gt.shape[2]
 
+            no_pred = 0
             for j in xrange(num):
                 if meta_data['cls_indexes'][j] <= 0:
                     continue
@@ -451,9 +452,11 @@ class lov(datasets.imdb):
                 print 'gt pose'
                 print poses_gt[:, :, j]
 
+                no_pred += 1
                 for k in xrange(rois.shape[0]):
                     cls_index = int(rois[k, 1])
                     if cls_index == meta_data['cls_indexes'][j]:
+                        no_pred -= 1
 
                         print 'estimated pose'
                         RT = np.zeros((3, 4), dtype=np.float32)
@@ -461,7 +464,7 @@ class lov(datasets.imdb):
                         RT[:, 3] = poses[k, 4:7]
                         print RT
 
-                        # Rotation difference in radians
+                        # Rotation difference in degrees
                         # R = PQ^T, theta = arccos((tr(R)-1)/2)
 
                         P = np.delete(poses_gt[:, :, j], 3, 1)
@@ -470,7 +473,7 @@ class lov(datasets.imdb):
                         R = np.matmul(P, Q.T)
                         tr_R = np.trace(R)
 
-                        theta = np.arccos([((tr_R) - 1) / 2])
+                        theta = np.rad2deg(np.arccos(((tr_R) - 1) / 2))
 
                         print 'rotation difference: {}'.format(theta)
 
@@ -540,7 +543,8 @@ class lov(datasets.imdb):
                             print 'error icp: {}'.format(error_icp)
 
                         print 'threshold: {}'.format(0.1 * np.linalg.norm(self._extents[cls_index, :]))
-        
+            print 'obj in scene: {}'.format(num)
+            print 'obj not predicted: {}'.format(no_pred)
 
     def evaluate_segmentations(self, segmentations, output_dir):
         print 'evaluating segmentations'
